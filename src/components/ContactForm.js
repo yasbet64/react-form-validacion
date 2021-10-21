@@ -1,4 +1,6 @@
 import { useForm } from "../hooks/useForm";
+import Loader from './Loader'
+import Message from "./Message";
 
 const initialForm={
     name:"",
@@ -17,6 +19,24 @@ const validationsForm=(form)=>{
 
     if(!form.name.trim()){
         errors.name="El campo Nombre es requerido";
+    }else if (!regexName.test(form.name.trim())) {
+        errors.name="El campo 'nombre' solo acepta letras y espacios en blanco";      
+    }
+
+    if(!form.email.trim()){
+        errors.email="El campo email es requerido";
+    }else if (!regexEmail.test(form.email.trim())) {
+        errors.email="El campo 'EMAIL' solo acepta  'EXAMPLE@GMAIL.COM'";    
+    }
+
+    if(!form.email.trim()){
+        errors.subject="El campo asunto es requerido";
+    }
+
+    if(!form.email.trim()){
+        errors.comments="El campo comentario es requerido";
+    }else if (!regexComments.test(form.comments.trim())) {
+        errors.comments="El campo 'comentarios' no debe excedder los 255 caracteres";       
     }
 
     return errors;
@@ -92,6 +112,8 @@ const ContactForm=()=>{
                 <input type="submit" value="Enviar"></input>
 
             </form>
+            {loading && <Loader/>}
+            {response&& <Message msg="Los datos han sido enviados" bgColor="#198754"/>}
         </div>
     );
 }
